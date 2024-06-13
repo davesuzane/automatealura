@@ -1,0 +1,64 @@
+// ==UserScript==
+// @name         Mark Correct Options and Click Buttons
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  Marks correct options and clicks buttons on the page
+// @author       Your Name
+// @match        *://*/*
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // Wait for the page to fully load
+    window.addEventListener('load', () => {
+        console.log("Page fully loaded");
+
+        // Function to mark correct options and click buttons
+        function markAndClick() {
+            console.log("Running markAndClick");
+
+            try {
+                // Select all list items with correct alternatives
+                const correctAlternatives = document.querySelectorAll('li.alternativeList-item[data-correct="true"]');
+                console.log("Correct alternatives found:", correctAlternatives.length);
+
+                correctAlternatives.forEach(alternative => {
+                    // Simulate a click on the input within the alternative to mark it
+                    const input = alternative.querySelector('input[type="radio"], input[type="checkbox"]');
+                    if (input) {
+                        input.click();
+                        console.log("Clicked on correct input:", input);
+                    } else {
+                        console.log("No input found in alternative:", alternative);
+                    }
+                });
+
+                // Click on the video transcription button
+                const transcriptionButton = document.querySelector('.video-transcription-button.transcription-toggle');
+                if (transcriptionButton) {
+                    transcriptionButton.click();
+                    console.log("Clicked on transcription button:", transcriptionButton);
+                } else {
+                    console.log("Video transcription button not found");
+                }
+
+                // Click on the next button
+                const nextButton = document.querySelector('.task-actions-button.task-actions-button-next.task-submit.bootcamp-primary-button-theme');
+                if (nextButton) {
+                    nextButton.click();
+                    console.log("Clicked on next button:", nextButton);
+                } else {
+                    console.log("Next button not found");
+                }
+            } catch (error) {
+                console.error("Error in markAndClick:", error);
+            }
+        }
+
+        // Run markAndClick after a delay to ensure the page has fully loaded
+        setTimeout(markAndClick, 500);
+    });
+
+})();
